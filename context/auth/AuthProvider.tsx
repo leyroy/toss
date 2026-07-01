@@ -16,14 +16,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setIsLoading(true)
     //fake asyc login
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000))
       const user = await loginAction(data)
       if (!user.user) throw new Error("Invalid credentials")
       setUser(user.user)
       // Redirect based on role
-      if (user?.user?.role === "Admin") router.push("/admin/dashboard")
-      if (user.user?.role === "student") router.push("/student/dashboard")
-      if (user.user?.role === "advisor") router.push("/advisor/dashboard")
+      router.push("/dashboard")
       toast.success("Login successful")
     } catch (error) {
       console.log("Login error:", error)
