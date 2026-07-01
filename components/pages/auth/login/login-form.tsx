@@ -1,3 +1,4 @@
+"use client"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
@@ -12,14 +13,28 @@ import {
   FieldDescription,
   FieldGroup,
   FieldLabel,
-  FieldSeparator,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
+import useAuthContext from "@/context/auth/useContext"
+import { useState } from "react"
+import { toast } from "sonner"
+import { LoaderCircle } from "lucide-react"
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const { login, isLoading } = useAuthContext()
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    if (!email || !password) {
+      return toast.warning("Please enter both email and password")
+    }
+    login({ email, password })
+  }
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
@@ -28,7 +43,7 @@ export function LoginForm({
           <CardDescription>Login into your account.</CardDescription>
         </CardHeader>
         <CardContent>
-          <form>
+          <form onSubmit={handleSubmit}>
             <FieldGroup>
               <Field>
                 <FieldLabel htmlFor="email">Email</FieldLabel>
@@ -37,6 +52,9 @@ export function LoginForm({
                   type="email"
                   placeholder="m@example.com"
                   required
+                  value={email}
+                  disabled={isLoading}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </Field>
               <Field>
@@ -49,10 +67,22 @@ export function LoginForm({
                     Forgot your password?
                   </a>
                 </div>
-                <Input id="password" type="password" required />
+                <Input
+                  id="password"
+                  type="password"
+                  required
+                  value={password}
+                  disabled={isLoading}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
               </Field>
               <Field>
-                <Button type="submit">Login</Button>
+                <Button type="submit" disabled={isLoading}>
+                  {isLoading && (
+                    <LoaderCircle className="size-4 animate-spin" />
+                  )}
+                  {isLoading ? "Logging in..." : "Login"}
+                </Button>
                 <FieldDescription className="text-center">
                   Don&apos;t have an account? <a href="#">Sign up</a>
                 </FieldDescription>

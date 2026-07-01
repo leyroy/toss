@@ -1,134 +1,45 @@
 import {
   LayoutDashboardIcon,
-  ListIcon,
   ChartBarIcon,
-  FolderIcon,
   UsersIcon,
-  CameraIcon,
-  FileTextIcon,
   Settings2Icon,
   CircleHelpIcon,
-  SearchIcon,
-  DatabaseIcon,
-  FileChartColumnIcon,
-  FileIcon,
 } from "lucide-react"
 
 export type IconType = React.ComponentType<React.SVGProps<SVGSVGElement>>
 
 export const sidebarNavs = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
   navMain: [
     {
       title: "Dashboard",
-      url: "#",
+      url: "dashboard",
       icon: LayoutDashboardIcon,
+      role: ["admin"],
     },
     {
-      title: "Lifecycle",
-      url: "#",
-      icon: ListIcon,
-    },
-    {
-      title: "Analytics",
-      url: "#",
+      title: "Reports",
+      url: "reports",
       icon: ChartBarIcon,
+      role: ["admin", "advisor", "student"],
     },
     {
-      title: "Projects",
-      url: "#",
-      icon: FolderIcon,
-    },
-    {
-      title: "Team",
-      url: "#",
+      title: "Students",
+      url: "students",
       icon: UsersIcon,
-    },
-  ],
-  navClouds: [
-    {
-      title: "Capture",
-      icon: CameraIcon,
-      isActive: true,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Proposal",
-      icon: FileTextIcon,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Prompts",
-      icon: FileTextIcon,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
+      role: ["admin", "advisor"],
     },
   ],
   navSecondary: [
     {
       title: "Settings",
-      url: "#",
+      url: "settings",
       icon: Settings2Icon,
+      role: ["admin", "advisor", "student"],
     },
     {
       title: "Get Help",
-      url: "#",
+      url: "help",
       icon: CircleHelpIcon,
-    },
-    {
-      title: "Search",
-      url: "#",
-      icon: SearchIcon,
-    },
-  ],
-  documents: [
-    {
-      name: "Data Library",
-      url: "#",
-      icon: DatabaseIcon,
-    },
-    {
-      name: "Reports",
-      url: "#",
-      icon: FileChartColumnIcon,
-    },
-    {
-      name: "Word Assistant",
-      url: "#",
-      icon: FileIcon,
     },
   ],
 }

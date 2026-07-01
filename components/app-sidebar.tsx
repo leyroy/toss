@@ -17,8 +17,10 @@ import {
 } from "@/components/ui/sidebar"
 import { CommandIcon } from "lucide-react"
 import { sidebarNavs as data } from "@/data/sidebar-navs"
+import useAuthContext from "@/context/auth/useContext"
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { user } = useAuthContext()
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -38,12 +40,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavDocuments items={data.documents} />
+        {/* <NavDocuments items={data.documents} /> */}
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
-      <SidebarFooter>
-        <NavUser user={data.user} />
-      </SidebarFooter>
+      <SidebarFooter>{user && <NavUser user={user} />}</SidebarFooter>
     </Sidebar>
   )
 }

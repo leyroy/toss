@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { AuthProvider } from "@/context/auth/AuthProvider"
+import { Toaster } from "@/components/ui/sonner"
 
 const roboto = Roboto({ subsets: ["latin"], variable: "--font-sans" })
 
@@ -34,6 +35,7 @@ export default function RootLayout({
           <TooltipProvider>
             <AuthProvider>{children}</AuthProvider>
           </TooltipProvider>
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>
