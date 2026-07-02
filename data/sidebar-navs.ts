@@ -14,7 +14,7 @@ export const sidebarNavs = {
       title: "Dashboard",
       url: "dashboard",
       icon: LayoutDashboardIcon,
-      role: ["admin"],
+      role: ["admin", "advisor", "student"],
     },
     {
       title: "Reports",
@@ -27,6 +27,12 @@ export const sidebarNavs = {
       url: "students",
       icon: UsersIcon,
       role: ["admin", "advisor"],
+    },
+    {
+      title: "Staffs",
+      url: "staffs",
+      icon: UsersIcon,
+      role: ["admin"],
     },
   ],
   navSecondary: [

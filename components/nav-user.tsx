@@ -17,16 +17,17 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 import { User } from "@/context/auth/context"
+import useAuthContext from "@/context/auth/useContext"
 import {
   EllipsisVerticalIcon,
   CircleUserRoundIcon,
-  CreditCardIcon,
   BellIcon,
   LogOutIcon,
 } from "lucide-react"
 
-export function NavUser({ user }: { user: User }) {
+export function NavUser({ user }: { user: User | null }) {
   const { isMobile } = useSidebar()
+  const { logout, isLoading } = useAuthContext()
 
   return (
     <SidebarMenu>
@@ -38,13 +39,13 @@ export function NavUser({ user }: { user: User }) {
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="h-8 w-8 rounded-lg grayscale">
-                <AvatarImage src={"/avatars/shadcn.jpg"} alt={user.fullName} />
+                <AvatarImage src={"/avatars/shadcn.jpg"} alt={user?.fullName} />
                 <AvatarFallback className="rounded-lg">CN</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{user.fullName}</span>
+                <span className="truncate font-medium">{user?.fullName}</span>
                 <span className="truncate text-xs text-muted-foreground">
-                  {user.email}
+                  {user?.email}
                 </span>
               </div>
               <EllipsisVerticalIcon className="ml-auto size-4" />
@@ -61,35 +62,35 @@ export function NavUser({ user }: { user: User }) {
                 <Avatar className="h-8 w-8 rounded-lg">
                   <AvatarImage
                     src={"/avatars/shadcn.jpg"}
-                    alt={user.fullName}
+                    alt={user?.fullName}
                   />
                   <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">{user.fullName}</span>
+                  <span className="truncate font-medium">{user?.fullName}</span>
                   <span className="truncate text-xs text-muted-foreground">
-                    {user.email}
+                    {user?.email}
                   </span>
                 </div>
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
+              <DropdownMenuItem disabled={isLoading}>
                 <CircleUserRoundIcon />
                 Account
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <CreditCardIcon />
-                Billing
-              </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem disabled={isLoading}>
                 <BellIcon />
                 Notifications
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem
+              className="cursor-pointer"
+              disabled={isLoading}
+              onClick={logout}
+            >
               <LogOutIcon />
               Log out
             </DropdownMenuItem>

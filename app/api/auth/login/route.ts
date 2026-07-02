@@ -2,15 +2,12 @@ import { prisma } from "@/lib/prisma"
 import bcrypt from "bcryptjs"
 
 //login route
-export const POST = async (request: Request) => {
+export async function POST(request: Request) {
   const { email, password } = await request.json()
   if (!email || !password) {
-    return new Response(
-      JSON.stringify({ error: "Email and password are required" }),
-      {
-        status: 400,
-        headers: { "Content-Type": "application/json" },
-      }
+    return Response.json(
+      { error: "Email and password are required" },
+      { status: 400 }
     )
   }
   try {
@@ -23,30 +20,20 @@ export const POST = async (request: Request) => {
       },
     })
     if (!user) {
-      return new Response(JSON.stringify({ error: "User not found" }), {
-        status: 404,
-        headers: { "Content-Type": "application/json" },
-      })
-    }
-    if (!bcrypt.compareSync(password, user.password)) {
-      return new Response(JSON.stringify({ error: "Invalid credentials" }), {
-        status: 401,
-        headers: { "Content-Type": "application/json" },
-      })
+      return Response.json({ error: "User not found" }, { status: 404 })
     }
 
-    return new Response(
-      JSON.stringify({ user, message: "Login successful", success: true }),
-      {
-        status: 200,
-        headers: { "Content-Type": "application/json" },
-      }
+    if (!bcrypt.compareSync(password, user.password)) {
+      return Response.json({ error: "Invalid credentials" }, { status: 401 })
+    }
+
+    return Response.json(
+      { user, message: "Login successful", success: true },
+      { status: 200 }
     )
   } catch (error) {
     // console.error("Error during login:", error)
-    return new Response(JSON.stringify({ error: "Internal Server Error" }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    })
+    console.error("Error:", error)
+    return Response.json({ success: false, error: error }, { status: 500 })
   }
 }

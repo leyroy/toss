@@ -21,18 +21,12 @@ export function NavMain({
     icon?: IconType
   }[]
 }) {
+  // Get the current pathname using the usePathname hook
   const pathName = usePathname()
   const isActive = (url: string) => {
-    console.log("isActive called with url:", url)
-    console.log("Current pathName:", pathName)
     return pathName.split("/")[1] === url.toLocaleLowerCase()
   }
-  console.log({
-    pathName: pathName,
-    isActive: isActive("/dashboard"),
-    split: pathName.split("/")[1].toLocaleLowerCase(),
-    status: pathName.split("/")[1].toLocaleLowerCase() === "dashboard",
-  })
+
   return (
     <SidebarGroup>
       <SidebarGroupContent className="flex flex-col gap-2">

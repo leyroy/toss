@@ -14,7 +14,7 @@ async function main() {
   const password = await bcrypt.hash("password123", 10)
 
   // ── Users ────────────────────────────────────────────
-  const admin = await prisma.user.create({
+  await prisma.user.create({
     data: {
       name: "Ley Roy",
       email: "admin@helpbridge.com",
@@ -88,7 +88,7 @@ async function main() {
     },
   })
 
-  const ticket4 = await prisma.ticket.create({
+  await prisma.ticket.create({
     data: {
       title: "Wrong course registered",
       description:
@@ -150,3 +150,5 @@ main()
   .finally(async () => {
     await prisma.$disconnect()
   })
+
+export const SeedIntialData = main

@@ -22,6 +22,7 @@ interface AuthContextType {
   logout: () => void
   isLoading: boolean
 }
+
 export const AuthContext = createContext<AuthContextType>({
   user: null,
   login: () => {},

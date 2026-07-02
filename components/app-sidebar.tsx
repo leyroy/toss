@@ -20,6 +20,7 @@ import useAuthContext from "@/context/auth/useContext"
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { user } = useAuthContext()
+  console.log("login user", user)
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -38,11 +39,23 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain
+          items={data.navMain.filter((item) =>
+            item.role?.includes(user?.role?.toLocaleLowerCase() || "")
+          )}
+        />
         {/* <NavDocuments items={data.documents} /> */}
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
+        <NavSecondary
+          items={data.navSecondary.filter((item) =>
+            item.role?.includes(user?.role?.toLocaleLowerCase() || "")
+          )}
+          className="mt-auto"
+        />
       </SidebarContent>
-      <SidebarFooter>{user && <NavUser user={user} />}</SidebarFooter>
+      <SidebarFooter>
+        {" "}
+        <NavUser user={user} />
+      </SidebarFooter>
     </Sidebar>
   )
 }
