@@ -20,6 +20,8 @@ async function main() {
       email: "admin@helpbridge.com",
       password,
       role: "ADMIN",
+      phoneNumber: "+233-24-000-0001",
+      department: "Administration",
     },
   })
 
@@ -29,6 +31,8 @@ async function main() {
       email: "staff@helpbridge.com",
       password,
       role: "SUPERVISOR",
+      phoneNumber: "+233-24-000-0002",
+      department: "ICT Support",
     },
   })
 
@@ -38,6 +42,8 @@ async function main() {
       email: "abena@helpbridge.com",
       password,
       role: "STUDENT",
+      phoneNumber: "+233-24-000-0003",
+      department: "Science",
     },
   })
 
@@ -47,6 +53,8 @@ async function main() {
       email: "kwame@helpbridge.com",
       password,
       role: "STUDENT",
+      phoneNumber: "+233-24-000-0004",
+      department: "Arts",
     },
   })
 

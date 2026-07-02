@@ -10,7 +10,8 @@ import {
 import { IconType } from "@/data/sidebar-navs"
 import { cn } from "@/lib/utils"
 import { CirclePlusIcon } from "lucide-react"
-import { usePathname } from "next/dist/client/components/navigation"
+import { usePathname } from "next/navigation"
+import Link from "next/link"
 
 export function NavMain({
   items,
@@ -21,10 +22,12 @@ export function NavMain({
     icon?: IconType
   }[]
 }) {
-  // Get the current pathname using the usePathname hook
   const pathName = usePathname()
+
   const isActive = (url: string) => {
-    return pathName.split("/")[1] === url.toLocaleLowerCase()
+    // Exact match for /dashboard, startsWith for sub-routes
+    if (url === "/dashboard") return pathName === "/dashboard"
+    return pathName.startsWith(url)
   }
 
   return (
@@ -35,9 +38,7 @@ export function NavMain({
             <SidebarMenuButton
               tooltip="Quick Create"
               className={cn(
-                "min-w-8 text-primary-foreground duration-200 ease-linear hover:text-primary-foreground",
-                isActive("/create") &&
-                  "text-primary-foreground hover:bg-primary/90 active:bg-primary/90"
+                "min-w-8 text-primary-foreground duration-200 ease-linear hover:text-primary-foreground"
               )}
             >
               <CirclePlusIcon />
@@ -49,13 +50,16 @@ export function NavMain({
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
               <SidebarMenuButton
+                asChild
                 className={cn(
                   isActive(item.url) && "bg-primary text-primary-foreground"
                 )}
                 tooltip={item.title}
               >
-                {item.icon && <item.icon />}
-                <span>{item.title}</span>
+                <Link href={item.url}>
+                  {item.icon && <item.icon />}
+                  <span>{item.title}</span>
+                </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
           ))}

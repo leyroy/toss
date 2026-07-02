@@ -1,5 +1,6 @@
 "use client"
 
+import { useCallback, useEffect, useState } from "react"
 import { Badge } from "@/components/ui/badge"
 import {
   Card,
@@ -9,101 +10,138 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { TrendingUpIcon, TrendingDownIcon } from "lucide-react"
+import {
+  TrendingUpIcon,
+  TicketIcon,
+  ClockIcon,
+  CheckCircle2Icon,
+  UsersIcon,
+} from "lucide-react"
+import { getTicketsAction } from "@/actions/tickets"
+import useAuthContext from "@/context/auth/useContext"
 
 export function SectionCards() {
+  const { user } = useAuthContext()
+  const [stats, setStats] = useState({
+    total: 0,
+    open: 0,
+    inProgress: 0,
+    resolved: 0,
+  })
+
+  const fetchStats = useCallback(async () => {
+    const result = await getTicketsAction()
+    if (result.success && result.tickets) {
+      const tickets = result.tickets as { status: string }[]
+      setStats({
+        total: tickets.length,
+        open: tickets.filter((t) => t.status === "OPEN").length,
+        inProgress: tickets.filter((t) => t.status === "IN_PROGRESS").length,
+        resolved: tickets.filter(
+          (t) => t.status === "RESOLVED" || t.status === "CLOSED"
+        ).length,
+      })
+    }
+  }, [])
+
+  useEffect(() => {
+    fetchStats()
+  }, [fetchStats])
+
+  const role = user?.role?.toLowerCase() || "student"
+
   return (
     <div className="grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4 dark:*:data-[slot=card]:bg-card">
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>Total Revenue</CardDescription>
+          <CardDescription>Total Tickets</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            $1,250.00
+            {stats.total}
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
-              <TrendingUpIcon
-              />
-              +12.5%
+              <TicketIcon />
+              All
             </Badge>
           </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
-            Trending up this month{" "}
-            <TrendingUpIcon className="size-4" />
+            {role === "student"
+              ? "Your submitted tickets"
+              : "Platform-wide tickets"}
           </div>
           <div className="text-muted-foreground">
-            Visitors for the last 6 months
+            Across all categories
           </div>
         </CardFooter>
       </Card>
+
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>New Customers</CardDescription>
+          <CardDescription>Open</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            1,234
+            {stats.open}
           </CardTitle>
           <CardAction>
-            <Badge variant="outline">
-              <TrendingDownIcon
-              />
-              -20%
+            <Badge variant="outline" className="text-blue-500 border-blue-500/20">
+              <UsersIcon />
+              Awaiting
             </Badge>
           </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
-            Down 20% this period{" "}
-            <TrendingDownIcon className="size-4" />
+            Needs attention
           </div>
           <div className="text-muted-foreground">
-            Acquisition needs attention
+            Not yet assigned or started
           </div>
         </CardFooter>
       </Card>
+
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>Active Accounts</CardDescription>
+          <CardDescription>In Progress</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            45,678
+            {stats.inProgress}
           </CardTitle>
           <CardAction>
-            <Badge variant="outline">
-              <TrendingUpIcon
-              />
-              +12.5%
+            <Badge variant="outline" className="text-amber-500 border-amber-500/20">
+              <ClockIcon />
+              Active
             </Badge>
           </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
-            Strong user retention{" "}
-            <TrendingUpIcon className="size-4" />
+            Currently being handled
           </div>
-          <div className="text-muted-foreground">Engagement exceed targets</div>
+          <div className="text-muted-foreground">
+            Staff are working on these
+          </div>
         </CardFooter>
       </Card>
+
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>Growth Rate</CardDescription>
+          <CardDescription>Resolved</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            4.5%
+            {stats.resolved}
           </CardTitle>
           <CardAction>
-            <Badge variant="outline">
-              <TrendingUpIcon
-              />
-              +4.5%
+            <Badge variant="outline" className="text-green-500 border-green-500/20">
+              <CheckCircle2Icon />
+              Done
             </Badge>
           </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
-            Steady performance increase{" "}
+            Successfully closed{" "}
             <TrendingUpIcon className="size-4" />
           </div>
-          <div className="text-muted-foreground">Meets growth projections</div>
+          <div className="text-muted-foreground">Resolved or closed tickets</div>
         </CardFooter>
       </Card>
     </div>

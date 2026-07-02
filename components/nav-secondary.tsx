@@ -13,6 +13,7 @@ import { IconType } from "@/data/sidebar-navs"
 
 export function NavSecondary({
   items,
+  onSettingsClick,
   ...props
 }: {
   items: {
@@ -20,6 +21,7 @@ export function NavSecondary({
     url: string
     icon: IconType
   }[]
+  onSettingsClick?: () => void
 } & React.ComponentPropsWithoutRef<typeof SidebarGroup>) {
   return (
     <SidebarGroup {...props}>
@@ -28,10 +30,23 @@ export function NavSecondary({
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
               <SidebarMenuButton asChild>
-                <a href={item.url}>
-                  {item.icon && <item.icon />}
-                  <span>{item.title}</span>
-                </a>
+                {item.title === "Settings" && onSettingsClick ? (
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault()
+                      onSettingsClick()
+                    }}
+                    className="w-full text-left flex items-center gap-2 cursor-pointer"
+                  >
+                    {item.icon && <item.icon />}
+                    <span>{item.title}</span>
+                  </button>
+                ) : (
+                  <a href={item.url}>
+                    {item.icon && <item.icon />}
+                    <span>{item.title}</span>
+                  </a>
+                )}
               </SidebarMenuButton>
             </SidebarMenuItem>
           ))}

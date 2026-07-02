@@ -55,9 +55,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }
 
+  const updateUser = (updatedUser: Partial<User>) => {
+    if (user) {
+      const merged = { ...user, ...updatedUser }
+      setUser(merged)
+      localStorage.setItem("user", JSON.stringify(merged))
+    }
+  }
+
   return (
     <AuthContext.Provider
-      value={{ user: user, login: login, logout: logout, isLoading: isLoading }}
+      value={{ user, login, logout, updateUser, isLoading }}
     >
       {children}
     </AuthContext.Provider>

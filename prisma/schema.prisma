@@ -33,13 +33,15 @@ enum Priority {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  name      String
-  email     String   @unique
-  password  String
-  role      Role     @default(STUDENT)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String   @id @default(cuid())
+  name        String
+  email       String   @unique
+  password    String
+  role        Role     @default(STUDENT)
+  phoneNumber String?
+  department  String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   tickets  Ticket[]  @relation("CreatedBy")
   assigned Ticket[]  @relation("AssignedTo")

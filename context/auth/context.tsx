@@ -20,6 +20,7 @@ interface AuthContextType {
   user: User | null
   login: (user: Pick<User, "email" | "password">) => void
   logout: () => void
+  updateUser: (updatedUser: Partial<User>) => void
   isLoading: boolean
 }
 
@@ -27,5 +28,6 @@ export const AuthContext = createContext<AuthContextType>({
   user: null,
   login: () => {},
   logout: () => {},
+  updateUser: () => {},
   isLoading: false,
 })
