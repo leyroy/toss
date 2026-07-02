@@ -20,19 +20,19 @@ export const sidebarNavs = {
     },
     {
       title: "Tickets",
-      url: "/dashboard/tickets",
+      url: "/tickets",
       icon: TicketIcon,
       role: ["admin", "supervisor", "student"],
     },
     {
       title: "Students",
-      url: "/dashboard/students",
+      url: "/students",
       icon: UsersIcon,
       role: ["admin", "supervisor"],
     },
     {
       title: "Staffs",
-      url: "/dashboard/staffs",
+      url: "/staffs",
       icon: ShieldCheckIcon,
       role: ["admin"],
     },
@@ -40,13 +40,13 @@ export const sidebarNavs = {
   navSecondary: [
     {
       title: "Settings",
-      url: "/dashboard/settings",
+      url: "/settings",
       icon: Settings2Icon,
       role: ["admin", "supervisor", "student"],
     },
     {
       title: "Get Help",
-      url: "/dashboard/help",
+      url: "/help",
       icon: CircleHelpIcon,
       role: ["admin", "supervisor", "student"],
     },
