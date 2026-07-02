@@ -6,9 +6,18 @@ export function proxy(request: NextRequest) {
   const token = request.cookies.get("session")?.value
   const { pathname } = request.nextUrl
 
-  const isAuthPage =
-    pathname.startsWith("/login") || pathname.startsWith("/register")
-  const isProtectedPage = pathname.startsWith("/dashboard")
+  const PROTECTED_PAGES = [
+    "/",
+    "/tickets",
+    "/students",
+    "/staffs",
+    "/settings",
+    "/help",
+  ]
+  const AUTH_PAGES = ["/login", "/register"]
+
+  const isAuthPage = AUTH_PAGES.includes(pathname)
+  const isProtectedPage = PROTECTED_PAGES.includes(pathname)
 
   // User is NOT logged in and trying to access protected page
   if (!token && isProtectedPage) {
@@ -17,7 +26,7 @@ export function proxy(request: NextRequest) {
 
   // User IS logged in and trying to access login/register
   if (token && isAuthPage) {
-    return NextResponse.redirect(new URL("/dashboard", request.url))
+    return NextResponse.redirect(new URL("/", request.url))
   }
 
   return NextResponse.next() // let them through
@@ -25,5 +34,14 @@ export function proxy(request: NextRequest) {
 
 // Tell Next.js which routes to run middleware on
 export const config = {
-  matcher: ["/dashboard/:path*", "/login", "/register"],
+  matcher: [
+    "/",
+    "/tickets",
+    "/students",
+    "/staffs",
+    "/settings",
+    "/help",
+    "/login",
+    "/register",
+  ],
 }

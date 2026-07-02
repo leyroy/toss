@@ -14,7 +14,7 @@ export const sidebarNavs = {
   navMain: [
     {
       title: "Dashboard",
-      url: "/dashboard",
+      url: "/",
       icon: LayoutDashboardIcon,
       role: ["admin", "supervisor", "student"],
     },

@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       localStorage.setItem("user", JSON.stringify(res.user))
       console.log("login user", res.user)
       // Redirect based on role
-      router.push("/dashboard")
+      router.push("/")
       toast.success("Login successful")
     } catch (error) {
       console.log("Login error:", error)
