@@ -10,6 +10,7 @@
     "lint": "eslint",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
     "migrate": "prisma migrate dev",
+    "postinstall": " prisma migrate && generate",
     "generate": "prisma generate",
     "seed": "prisma db seed",
     "typecheck": "tsc --noEmit"
